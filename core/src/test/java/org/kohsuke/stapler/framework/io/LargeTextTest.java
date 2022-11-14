@@ -43,6 +43,7 @@ import org.apache.commons.io.output.NullOutputStream;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
+import org.checkerframework.checker.tainting.qual.Untainted;
 
 public class LargeTextTest {
 
@@ -81,7 +82,7 @@ public class LargeTextTest {
     @Test
     @Ignore
     public void writeLogToWithLargeFile() throws Exception {
-        Path path = Files.createTempFile("stapler-test", ".log.gz");
+        @Untainted Path path = Files.createTempFile("stapler-test", ".log.gz");
         long size = Integer.MAX_VALUE + 256L;
         writeLargeFile(path, size);
 

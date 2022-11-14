@@ -39,7 +39,8 @@
               </annotationProcessors>
               <compilerArgs>
                 <!-- -Awarns turns type-checking errors into warnings. -->
-                <arg>-Awarns</arg> 
+                <arg>-Awarns</arg>
+                <arg>-Astubs=${project.basedir}/stubs</arg>
               </compilerArgs>
             </configuration>
           </plugin>

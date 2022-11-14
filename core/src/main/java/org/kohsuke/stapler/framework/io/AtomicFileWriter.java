@@ -35,6 +35,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import org.checkerframework.checker.tainting.qual.Untainted;
+import org.checkerframework.checker.tainting.qual.Tainted;
 
 /**
  * Buffered {@link FileWriter} that uses UTF-8.
@@ -90,7 +92,7 @@ public class AtomicFileWriter extends Writer {
 
     public void commit() throws IOException {
         close();
-        Path destFilePath = destFile.toPath();
+        @Untainted Path destFilePath = destFile.toPath();
         if (Files.exists(destFilePath)) {
             Files.delete(destFilePath);
         }

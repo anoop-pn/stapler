@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import org.checkerframework.checker.tainting.qual.Untainted;
 
 /**
  * JSON writer.
@@ -54,14 +55,14 @@ class JSONDataWriter implements DataWriter {
     }
 
     @Override
-    public void name(String name) throws IOException {
+    public void name(@Untainted String name) throws IOException {
         comma();
         if (indent<0)   out.write('"'+name+"\":");
         else            out.write('"'+name+"\" : ");
         needComma = false;
     }
 
-    protected void data(String v) throws IOException {
+    protected void data(@Untainted String v) throws IOException {
         comma();
         out.write(v);
     }

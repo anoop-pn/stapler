@@ -27,6 +27,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import org.checkerframework.checker.tainting.qual.Untainted;
 
 /**
  * Receives the event callback on the model data to be exposed.
@@ -47,7 +48,7 @@ import java.lang.reflect.Type;
  * @author Kohsuke Kawaguchi
  */
 public interface DataWriter {
-    void name(String name) throws IOException;
+    void name(@Untainted String name) throws IOException;
 
     void valuePrimitive(Object v) throws IOException;
     void value(String v) throws IOException;
@@ -77,5 +78,5 @@ public interface DataWriter {
     /**
      * Recommended property name to write out the 'type' parameter of {@link #type(Type,Class)}
      */
-    String CLASS_PROPERTY_NAME = "_class";
+    @Untainted String CLASS_PROPERTY_NAME = "_class";
 }

@@ -32,6 +32,8 @@ import java.util.Stack;
 import java.io.Writer;
 import java.io.IOException;
 import java.beans.Introspector;
+import org.checkerframework.checker.tainting.qual.PolyTainted;
+import org.checkerframework.checker.tainting.qual.Untainted;
 
 /**
  * Writes XML.
@@ -85,7 +87,7 @@ final class XMLDataWriter implements DataWriter {
 
     @Override
     public void value(String v) throws IOException {
-        String n = adjustName();
+        @Untainted String n = adjustName();
         out.write('<'+n+'>');
         out.write(Stapler.escape(v));
         out.write("</"+n+'>');
@@ -137,17 +139,17 @@ final class XMLDataWriter implements DataWriter {
      * Returns the name to be used as an element name
      * by considering {@link #isArray}
      */
-    private String adjustName() {
-        String escaped = makeXmlName(name);
+    private @PolyTainted String adjustName() {
+        @PolyTainted String escaped = makeXmlName(name);
         if(isArray.peek()) return toSingular(escaped);
         return escaped;
     }
 
-    /*package*/ static String toSingular(String name) {
+    /*package*/ static @PolyTainted String toSingular(@PolyTainted String name) {
         return name.replaceFirst("ies$", "y").replaceFirst("s$", "");
     }
 
-    /*package*/ static String makeXmlName(String name) {
+    /*package*/ static @PolyTainted String makeXmlName(@PolyTainted String name) {
         if (name.length()==0)   name="_";
 
         if (!XmlChars.isNameStart(name.charAt(0))) {
@@ -168,5 +170,5 @@ final class XMLDataWriter implements DataWriter {
         return name;
     }
 
-    private static final String CLASS_ATTRIBUTE_PREFIX = " "+ CLASS_PROPERTY_NAME +"='";
+    private static final @Untainted String CLASS_ATTRIBUTE_PREFIX = " "+ CLASS_PROPERTY_NAME +"='";
 }

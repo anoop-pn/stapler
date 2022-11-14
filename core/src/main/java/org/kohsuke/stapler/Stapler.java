@@ -83,6 +83,7 @@ import java.util.regex.Pattern;
 
 import static javax.servlet.http.HttpServletResponse.*;
 import static org.kohsuke.stapler.Dispatcher.*;
+import org.checkerframework.checker.tainting.qual.PolyTainted;
 
 
 /**
@@ -1174,7 +1175,7 @@ public class Stapler extends HttpServlet {
      * Escapes HTML/XML unsafe characters for the PCDATA section.
      * This method does not handle whitespace-preserving escape, nor attribute escapes.
      */
-    public static String escape(String v) {
+    public static @PolyTainted String escape(@PolyTainted String v) {
         if (v==null)    return null;
 
         StringBuilder buf = new StringBuilder(v.length()+64);

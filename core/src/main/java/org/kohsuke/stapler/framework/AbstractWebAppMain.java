@@ -40,6 +40,8 @@ import java.util.Locale;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.checkerframework.checker.tainting.qual.Untainted;
+import org.checkerframework.checker.tainting.qual.PolyTainted;
 
 /**
  * Entry point for web applications.
@@ -63,7 +65,7 @@ public abstract class AbstractWebAppMain<T> implements ServletContextListener {
     /**
      * Once the home directory is determined, this value is set to that directory.
      */
-    protected File home;
+    protected @Untainted File home;
 
     private CompletableFuture<Object> initializer = new CompletableFuture<>();
 
@@ -214,7 +216,7 @@ public abstract class AbstractWebAppMain<T> implements ServletContextListener {
      * with those by doing {@link String#trim()}.
      */
     @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN", justification = "Home dir is configured by admin or app.")
-    protected File getHomeDir() {
+    protected @PolyTainted File getHomeDir() {
         // check the system property for the home directory first
         String varName = getApplicationName().toUpperCase() + "_HOME";
         String sysProp = System.getProperty(varName);
@@ -236,7 +238,7 @@ public abstract class AbstractWebAppMain<T> implements ServletContextListener {
      * Override this method to change that behavior.
      */
     @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN", justification = "Home dir is configured by admin or app.")
-    protected File getDefaultHomeDir() {
+    protected @PolyTainted File getDefaultHomeDir() {
         return new File(new File(System.getProperty("user.home")),'.'+getApplicationName().toLowerCase());
     }
 

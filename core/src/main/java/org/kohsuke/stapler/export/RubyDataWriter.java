@@ -25,6 +25,7 @@ package org.kohsuke.stapler.export;
 
 import java.io.IOException;
 import java.io.Writer;
+import org.checkerframework.checker.tainting.qual.PolyTainted;
 
 /**
  * Writes out the format that can be {@code eval}-ed from Ruby.
@@ -42,7 +43,7 @@ final class RubyDataWriter extends JSONDataWriter {
     }
 
     @Override
-    public void name(String name) throws IOException {
+    public void name(@PolyTainted String name) throws IOException {
         comma();
         out.write('"'+name+"\" => ");
         needComma = false;
