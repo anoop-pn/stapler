@@ -46,7 +46,6 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import com.jcraft.jzlib.GZIPInputStream;
-import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a large text data.
@@ -74,7 +73,7 @@ public class LargeText {
 
     private volatile boolean completed;
 
-    public LargeText(@RUntainted File file, boolean completed) {
+    public LargeText(File file, boolean completed) {
         this(file,Charset.defaultCharset(),completed);
     }
     
@@ -86,11 +85,11 @@ public class LargeText {
      * uncompress its content during read-access. Do note that the underlying
      * file is not altered and remains compressed.
      */
-    public LargeText(@RUntainted File file, boolean completed, boolean transparentGunzip) {
+    public LargeText(File file, boolean completed, boolean transparentGunzip) {
         this(file, Charset.defaultCharset(), completed, transparentGunzip);
     }
 
-    public LargeText(final @RUntainted File file, Charset charset, boolean completed) {
+    public LargeText(final File file, Charset charset, boolean completed) {
         this(file, charset, completed, false);
     }
     
@@ -102,7 +101,7 @@ public class LargeText {
      * uncompress its content during read-access. Do note that the underlying
      * file is not altered and remains compressed.
      */
-    public LargeText(final @RUntainted File file, Charset charset, boolean completed, boolean transparentGunzip) {
+    public LargeText(final File file, Charset charset, boolean completed, boolean transparentGunzip) {
         this.charset = charset;
         if (transparentGunzip && GzipAwareSession.isGzipStream(file)) {
             this.source = new Source() {
@@ -445,7 +444,7 @@ public class LargeText {
     private static final class GzipAwareSession implements Session {
         private final GZIPInputStream gz;
 
-        public GzipAwareSession(@RUntainted File file) throws IOException {
+        public GzipAwareSession(File file) throws IOException {
             this.gz = new GZIPInputStream(Files.newInputStream(file.toPath(), StandardOpenOption.READ));
         }
 
@@ -476,7 +475,7 @@ public class LargeText {
          * they equal the GZIP magic number.
          * @return true, if the first two bytes are the GZIP magic number.
          */
-        public static boolean isGzipStream(@RUntainted File file) {
+        public static boolean isGzipStream(File file) {
             try (InputStream in = Files.newInputStream(file.toPath(), StandardOpenOption.READ);
                  DataInputStream din = new DataInputStream(in)) {
                 return din.readShort()==0x1F8B;
@@ -502,7 +501,7 @@ public class LargeText {
          * @see #isGzipStream(File)
          * @return the size of the uncompressed file content.
          */
-        public static long getGzipStreamSize(@RUntainted File file) {
+        public static long getGzipStreamSize(File file) {
             if (!isGzipStream(file)) {
                 return file.length();
             }

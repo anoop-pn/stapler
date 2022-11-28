@@ -35,7 +35,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Buffered {@link FileWriter} that uses UTF-8.
@@ -49,11 +48,11 @@ import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 public class AtomicFileWriter extends Writer {
 
     private final Writer core;
-    private final @RUntainted File tmpFile;
-    private final @RUntainted File destFile;
+    private final File tmpFile;
+    private final File destFile;
 
     @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN", justification = "Protected by checks at other layers.")
-    public AtomicFileWriter(@RUntainted File f) throws IOException {
+    public AtomicFileWriter(File f) throws IOException {
         tmpFile = File.createTempFile("atomic",null,f.getParentFile());
         destFile = f;
         core = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(

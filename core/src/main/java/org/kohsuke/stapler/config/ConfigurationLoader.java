@@ -18,7 +18,6 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import static org.kohsuke.stapler.config.Configuration.UNSPECIFIED;
-import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a type-safe access to the configuration of the application.
@@ -61,7 +60,7 @@ public class ConfigurationLoader {
         this.source = source;
     }
 
-    private static Properties load(@RUntainted File f) throws IOException {
+    private static Properties load(File f) throws IOException {
         Properties config = new Properties();
         try (InputStream in = Files.newInputStream(f.toPath(), StandardOpenOption.READ)){
             config.load(in);
@@ -72,7 +71,7 @@ public class ConfigurationLoader {
     /**
      * Loads the configuration from the specified property file.
      */
-    public static ConfigurationLoader from(@RUntainted File configPropertyFile) throws IOException {
+    public static ConfigurationLoader from(File configPropertyFile) throws IOException {
         return from(load(configPropertyFile));
     }
 
