@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Entry point for web applications.
@@ -63,7 +64,7 @@ public abstract class AbstractWebAppMain<T> implements ServletContextListener {
     /**
      * Once the home directory is determined, this value is set to that directory.
      */
-    protected File home;
+    protected @RUntainted File home;
 
     private CompletableFuture<Object> initializer = new CompletableFuture<>();
 
